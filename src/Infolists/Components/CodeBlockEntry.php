@@ -26,6 +26,10 @@ class CodeBlockEntry extends Entry
 
     protected string | BaseLanguage | Language $language = Language::Json;
 
+    protected bool $shouldDisplayGutter = true;
+
+    protected int $gutterStartAt = 1;
+
     protected string | Theme $theme = Theme::HighlightTempest;
 
     protected bool $shouldUseInlineTheme = false;
@@ -33,6 +37,20 @@ class CodeBlockEntry extends Entry
     public function language(string | BaseLanguage | Language $language): static
     {
         $this->language = $language;
+
+        return $this;
+    }
+
+    public function withGutter(bool $shouldDisplayGutter = true): static
+    {
+        $this->shouldDisplayGutter = $shouldDisplayGutter;
+
+        return $this;
+    }
+
+    public function gutterStartsAt(int $gutterStartAt): static
+    {
+        $this->gutterStartAt = $gutterStartAt;
 
         return $this;
     }
@@ -63,7 +81,7 @@ class CodeBlockEntry extends Entry
             $language = new $language();
 
             if (! $language instanceof BaseLanguage) {
-                throw new \Exception('The language class must be an instance of ' . BaseLanguage::class);
+                throw new FilamentCodeBlocksException('The language class must be an instance of ' . BaseLanguage::class);
             }
         }
 
@@ -72,6 +90,16 @@ class CodeBlockEntry extends Entry
         }
 
         return $language;
+    }
+
+    public function getShouldDisplayGutter(): bool
+    {
+        return $this->shouldDisplayGutter;
+    }
+
+    public function getGutterStartsAt(): int
+    {
+        return $this->gutterStartAt;
     }
 
     public function getTheme(): string
@@ -104,7 +132,13 @@ class CodeBlockEntry extends Entry
             ? new InlineTheme(base_path() . "/vendor/tempest/highlight/src/Themes/Css/{$this->getTheme()}.css")
             : new CssTheme();
 
-        $state = (new Highlighter($theme))->parse($state, $this->getLanguage());
+        $highlighter = new Highlighter($theme);
+
+        if ($this->getShouldDisplayGutter()) {
+            $highlighter = $highlighter->withGutter($this->getGutterStartsAt());
+        }
+
+        $state = $highlighter->parse($state, $this->getLanguage());
 
         return new HtmlString("<pre><code>{$state}</code></pre>");
     }
