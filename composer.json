@@ -1,0 +1,61 @@
+{
+    "name": "erikaraujo/filament-code-blocks",
+    "version": "1.0.0",
+    "description": "Code Blocks powered by Tempest Hightlight for Filament",
+    "keywords": [
+        "erik araujo",
+        "filament-code-blocks",
+        "code blocks"
+    ],
+    "homepage": "https://github.com/erikaraujo/filament-code-blocks",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Erik Araujo",
+            "email": "contact@erikaraujo.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "filament/infolists": "^3.2",
+        "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+        "tempest/highlight": "^2.3"
+    },
+    "require-dev": {
+        "larastan/larastan": "^2.8",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^8.18",
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "ErikAraujo\\FilamentCodeBlocks\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ErikAraujo\\FilamentCodeBlocks\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "./vendor/bin/phpstan analyse",
+        "pint": "./vendor/bin/pint",
+        "test": "./vendor/bin/phpunit",
+        "test:coverage:html": [
+            "@test --coverage-html reports/test-coverage --coverage-text",
+            "open reports/test-coverage/index.html"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ErikAraujo\\FilamentCodeBlocks\\FilamentCodeBlocksServiceProvider"
+            ]
+        }
+    }
+}
