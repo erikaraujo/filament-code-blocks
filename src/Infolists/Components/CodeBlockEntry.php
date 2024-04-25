@@ -140,6 +140,6 @@ class CodeBlockEntry extends Entry
 
         $state = $highlighter->parse($state, $this->getLanguage());
 
-        return new HtmlString("<pre><code>{$state}</code></pre>");
+        return new HtmlString("<pre class='rounded-lg p-4'><code>{$state}</code></pre>");
     }
 }
