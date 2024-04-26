@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 
 class FilamentCodeBlocksServiceProvider extends ServiceProvider
 {
+    public static string $name = 'filament-code-blocks';
+
     public function register()
     {
     }
