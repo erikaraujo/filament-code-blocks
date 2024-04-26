@@ -6,6 +6,6 @@
     @endif
 
     <div>
-        {{ $getState() }}
+        <pre class='filament-code-block'><code>{{ $getState() }}</code></pre>
     </div>
 </x-dynamic-component>
